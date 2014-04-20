@@ -3,6 +3,7 @@
             [mscrobbler.routes.home :refer [home-routes]]
             [mscrobbler.middleware :as middleware]
             [noir.util.middleware :refer [app-handler]]
+            [mscrobbler.models.schema :as schema]
             [compojure.route :as route]
             [taoensso.timbre :as timbre]
             [taoensso.timbre.appenders.rotor :as rotor]
@@ -32,6 +33,7 @@
     {:path "mscrobbler.log" :max-size (* 512 1024) :backlog 10})
 
   (if (env :dev) (parser/cache-off!))
+  (if-not (schema/initialized?) (schema/create-tables))
   (timbre/info "mscrobbler started successfully"))
 
 (defn destroy
