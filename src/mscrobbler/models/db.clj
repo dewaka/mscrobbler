@@ -18,4 +18,20 @@
 (defn get-students []
   (select student))
 
-;; TODO: Define entities required for audio srobbling functionality
+;; Basic Scrobble User
+(defentity user)
+
+(defn save-user
+  [username firstname lastname]
+  (insert user
+          (values {:username username
+                   :firstname firstname
+                   :lastname lastname
+                   :timestamp (java.util.Date.)})))
+
+(defn get-users []
+  (select user))
+
+(defn delete-user [username]
+  (delete user
+          (where {:username username})))

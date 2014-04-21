@@ -30,7 +30,23 @@
     (sql/do-commands
       "CREATE INDEX student_timestamp_index ON student (timestamp)")))
 
+(defn create-user-table
+  []
+  (sql/with-connection
+    db-spec
+    (sql/create-table
+     :user
+     [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+     [:username "varchar(30)"]
+     [:firstname "varchar(30)"]
+     [:lastname "varchar(30)"]
+     [:timestamp :timestamp])
+    (sql/do-commands
+      "CREATE INDEX username_index ON user (username)")))
+
+
 (defn create-tables
   "creates the database tables used by the application"
   []
-  (create-student-table))
+  (create-student-table)
+  (create-user-table))
